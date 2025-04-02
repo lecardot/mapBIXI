@@ -21,8 +21,7 @@ async function renderMap() {
     L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
     L.control.scale().addTo(map);
 
-    var pointYUL = new L.LatLng(45.4680288, -73.7276389);
-    map.setView(pointYUL, 8);
+    map.setView(new L.LatLng(45.522575, -73.591757), 14);
 
     await fetch(`https://gbfs.velobixi.com/gbfs/fr/station_information.json`)
         .then(res => res.json())
@@ -30,7 +29,7 @@ async function renderMap() {
         .then(stations => {
             for (var station of stations) {
                 let latlng = L.marker([station.lat, station.lon]).addTo(map); // .on('click', (e) => clickAction(e, stations)).addTo(map);
-                L.tooltip(latlng, {content: station.name}).addTo(map);
+                latlng.bindTooltip(station.name)
             }
         })
 }
