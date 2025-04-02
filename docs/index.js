@@ -8,7 +8,7 @@ async function renderMap() {
         .then(res => res.json())
         .then(res => {
             for (var station of res["data"]["stations"]) {
-                L.LatLng(station.lat, station.lon).addTo(map);
+                L.marker([station.lat, station.lon]).addTo(map);
             }
         })
 }
