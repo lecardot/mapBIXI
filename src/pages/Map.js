@@ -1,16 +1,51 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import AppContext from '../context/AppContext'
-import { MapContainer, TileLayer, ScaleControl } from 'react-leaflet'
+import { MapContainer, TileLayer, ScaleControl, ZoomControl, useMapEvents } from 'react-leaflet'
 
 import LayerMarkers from '../components/LayerMarkers';
 
+/*
+Recherche de la station la plus proche
+function MyComponent() {
+    const map = useMapEvents({
+    mousemove: () => {
+        map.locate()
+      },
+      locationfound: (location) => {
+        console.log('location found:', location.latlng)
+        api.defineCurrentPosition(location.latlng);
+      },
+    })
+    return null
+  }
+    */
+    
+  
 function Map() {
 
+    const { state, api } = useContext(AppContext);
+
+    function MapListener() {
+        const map = useMapEvents({
+            zoom: () => {
+              api.updateZoom(map.getZoom());
+              console.log('zoom:', map.getZoom())
+            }
+          })
+          return null
+        }
+
     return (
-        <MapContainer center={[45.522575, -73.591757]} zoom={14} style={{ height: "100vh", width: "100vw" }}>
+        <MapContainer 
+            center={ state.map.cur_pos ? state.map.cur_pos : state.main_station.pos } 
+            zoom={state.map.zoom} 
+            style={{ height: "100vh", width: "100vw" }} 
+            zoomControl={false}>
+            <MapListener />
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             <ScaleControl position="bottomright" />
-            <LayerMarkers /> 
+            <ZoomControl position="topright" />
+            <LayerMarkers />
         </MapContainer>
     );
 }

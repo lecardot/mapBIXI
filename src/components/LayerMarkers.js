@@ -24,20 +24,17 @@ function deg2rad(deg) {
 
 function mapStation(station_info1, station_info2) {
 
-    var capacity = station_info1.capacity;
     var bicycles_avail = station_info2.num_bikes_available - station_info2.num_ebikes_available;
-    var bicycles_dispo = 100 * bicycles_avail / capacity;
-
     var docks_avail = station_info2.num_docks_available;
-    var docks_dispo = 100 * docks_avail / capacity;
 
     return {
         pos: [station_info1.lat, station_info1.lon],
         bicycles_avail: bicycles_avail,
         docks_avail: docks_avail,
-        bicycles_dispo: bicycles_dispo,
-        docks_dispo: docks_dispo,
-        name: station_info1.name
+        bicycles_dispo: 100 * bicycles_avail / (bicycles_avail + docks_avail),
+        docks_dispo: 100 * docks_avail / (bicycles_avail + docks_avail),
+        name: station_info1.name,
+        id: station_info1.station_id - 1,
     };
 }
 
@@ -58,7 +55,7 @@ function LayerMarkers() {
 
     return (
         <LayerGroup>
-            {data.map(station => { return(<MarkerStation station={station} />)})}
+            {data.map((station, key) => { return(<MarkerStation key={key} station={station} />)})}
         </LayerGroup>
 
     );
