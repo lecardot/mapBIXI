@@ -6,6 +6,8 @@ body {
     width: 100vw;
     height: 100vh;
 }
+
+#map { height: 180px; }
   
 .track, .city {
     text-align: center;
@@ -57,11 +59,10 @@ body {
   
   .custom-div-icon i {
     position: absolute;
-    width: 20px;
+    width: 22px;
     font-size: 22px;
     left: 0;
     right: 0;
-    bottom: -2px;
     margin: 10px auto;
     text-align: center;
   }

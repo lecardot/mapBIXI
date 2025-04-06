@@ -1,0 +1,6 @@
+{
+  "short_name": "BIXI map",
+  "name": "BIXI map",
+  "start_url": ".",
+  "display": "standalone"
+}
