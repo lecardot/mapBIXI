@@ -3,6 +3,7 @@ import AppContext from '../context/AppContext'
 import { MapContainer, TileLayer, ScaleControl, ZoomControl, useMapEvents } from 'react-leaflet'
 
 import LayerMarkers from '../components/LayerMarkers';
+import { CONFIG } from '../assets/js/types/config';
 
 /*
 Recherche de la station la plus proche
@@ -35,11 +36,18 @@ function Map() {
           return null
         }
 
+    let center = CONFIG.INIT_POS;
+    if (state.main_station) {
+        center = state.main_station.pos;
+    } else if (state.map.cur_pos) {
+        center = state.map.cur_pos; // ou à proximité
+    }
+
     return (
         <MapContainer 
-            center={ state.map.cur_pos ? state.map.cur_pos : state.main_station.pos } 
+            center={center} 
             zoom={state.map.zoom} 
-            style={{ height: "100vh", width: "100vw" }} 
+            style={{ height: "100vh", width: "100vw"}} 
             zoomControl={false}>
             <MapListener />
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />

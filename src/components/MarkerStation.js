@@ -81,7 +81,7 @@ function MarkerStation(props) {
             contextmenuItems={[
                 { icon: 'https://cdn-icons-png.flaticon.com/512/3648/3648601.png',
                     text: 'Définir comme station principale', 
-                    callback: () => { api.defineAsMain(station.id, station.pos) }},
+                    callback: () => { api.defineAsMain(station) }},
                 { separator: true },
                 { icon: 'https://cdn-icons-png.flaticon.com/512/5397/5397463.png', 
                     text: `Définir les ${state.map.cycles ? "vélos" : "stations"} comme principa${state.map.cycles ? "ux" : "les"}`, 

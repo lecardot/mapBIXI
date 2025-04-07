@@ -13,7 +13,7 @@ function Provider({ children }) {
     const [state, dispatch] = useReducer(
         reducer, 
         { 
-            main_station: main_station ? main_station : {id: "0", pos: [45.50956143036354, -73.55743234369584]},
+            main_station: main_station,
             map: {zoom: CONFIG.ZOOM, cycles: true}
         });
 
@@ -23,9 +23,9 @@ function Provider({ children }) {
             dispatch({ type: ACTIONS.CLEAR })
         },
 
-        defineAsMain: function (id, pos) {
-            CookieManager.setCookie("main_station", {"id": id, "pos": pos}, 365);
-            dispatch({ type: ACTIONS.DEFINE_AS_MAIN, id, pos })
+        defineAsMain: function (station) {
+            CookieManager.setCookie("main_station", station, 365);
+            dispatch({ type: ACTIONS.DEFINE_AS_MAIN, station})
         },
 
         updateZoom: function (zoom) {

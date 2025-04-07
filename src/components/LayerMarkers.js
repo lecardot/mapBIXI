@@ -1,25 +1,9 @@
 import React from 'react'
-import AppContext from '../context/AppContext'
 import { LayerGroup } from 'react-leaflet'
 
 import MarkerStation from './MarkerStation';
 
-function distance(a, b) {
-    var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(a.lat - b.lat);  // deg2rad below
-    var dLon = deg2rad(a.lon - b.lon);
-    var angle = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(deg2rad(a.lat)) * Math.cos(deg2rad(b.lat)) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(angle), Math.sqrt(1 - angle));
-    var d = R * c;
-    // distance in meters
-    return d * 1000;
-}
 
-function deg2rad(deg) {
-    return deg * (Math.PI / 180)
-}
 
 
 function mapStation(station_info1, station_info2) {
@@ -45,7 +29,9 @@ const loadDataStations = new Promise((resolve, reject) => {
         .then(res => Promise.all(res.map(r => r.json())))
         .then(res => Promise.all(res.map(r => r["data"]["stations"])))
         .then(stations => {
-            resolve(stations[0].map((info1, idx) => mapStation(info1, stations[1][idx])))
+            resolve(stations[0]
+                .map((info1, idx) => mapStation(info1, stations[1][idx]))
+                .filter(s => (s.bicycles_avail != 0 || s.docks_avail != 0)));
         });
 });
 
