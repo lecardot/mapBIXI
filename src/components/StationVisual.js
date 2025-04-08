@@ -45,13 +45,26 @@ async function computeGraph(pos) {
                 resolve(stations[1]
                     .filter((info1, idx) => (distance([stations[0][idx].lat, stations[0][idx].lon], pos) < 500))
                     .filter(s => (s.num_bikes_available != 0 || s.num_docks_available != 0))
-                    .map(s => mapStation(s)))
+                    //.map(s => mapStation(s))
+                    )
             });
     });
 
+
+    let number_bicyles = 0
+    let number_docks = 0
+
+    loadDataStations.then(stations => {
+        for (let station of stations) {
+            number_bicyles += station.num_bikes_available - station.num_ebikes_available;
+            number_docks += station.num_docks_available;
+        }
+    })
+
     let dico = { "0": 0, "100": 0 }
-    await loadDataStations.then(values => {
-        for (let val of values) {
+    await loadDataStations.then(stations => {
+        for (let station of stations) {
+            let val = mapStation(station)
             if (val in dico) {
                 dico[val] += 1;
             } else {
@@ -67,8 +80,9 @@ async function computeGraph(pos) {
     let xValues = listE.map(val => val.key)
     let cout = 0;
     let yValues = listE.map(val => { cout += val.value; return cout; })
+                    .reverse()
 
-    return [xValues, yValues]
+    return {"xValues": xValues, "yValues": yValues, "bicycles": number_bicyles, "docks": number_docks}
 }
 
 
@@ -79,8 +93,8 @@ function StationVisual({ station }) {
     useEffect(() => {
 
         computeGraph(station ? station.pos : null).then((res) => {
-            let xValues = res[0]
-            let yValues = res[1].reverse()
+            let xValues = res.xValues
+            let yValues = res.yValues
 
             new Chart(`StationsChart${randId}`, {
                 type: "line",
@@ -129,7 +143,10 @@ function StationVisual({ station }) {
 
 function AllStationVisual() {
     return (
-        <StationVisual />
+        <>
+            <div>Dans tout le réseau : </div>
+            <StationVisual/>
+        </>
     );
 }
 
@@ -137,7 +154,10 @@ function PartialStationVisual() {
     const { state } = useContext(AppContext);
 
     return (
-        <StationVisual station={state.main_station} />
+        <>
+            <div>A 500 m : </div>
+            <StationVisual station={state.main_station} />
+        </>
     );
 }
 

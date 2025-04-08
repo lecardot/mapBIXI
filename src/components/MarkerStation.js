@@ -10,9 +10,9 @@ var iconDetailsMarker = (aMarker, bMarker) => {
     return L.divIcon({
         className: 'custom-div-icon',
         html: `<div style='background-color:${aMarker.color}' class='marker-pin'></div>
-        <div style='background-color:${bMarker.color}' class='circle-marker'></div>
+        <div style='background-color:${bMarker.color}' class='circle-marker '></div>
         <i class='material-icons-outlined'>${aMarker.name}</i>`,
-        iconSize: [30, 42],
+        iconSize:   [30, 42],
         iconAnchor: [15, 42]
     });
 }
@@ -21,8 +21,8 @@ var iconSimpleMarker = (aMarker, bMarker) => {
     return L.divIcon({
         className: 'custom-div-icon',
         html: `<div style='background-color:${aMarker.color}' class='marker-simple-pin'>`,
-        iconSize: [30, 42],
-        iconAnchor: [15, 42]
+        iconSize: [10, 10],
+        iconAnchor: [5, 5]
     });
 }
 
@@ -47,23 +47,27 @@ var bicyleIcon = (use, dispo, zoomLevel, reverse = false) => {
         if (!reverse) {
             return iconSimpleMarker(
                 { "name": dispo == 0 ? "block" : "api", "color": red2green(dispo) },
-                { "name": use == 0 ? "block" : "directions_bike", "color": red2green(use) });
+                { "name": use == 0 ? "block" : "directions_bike", "color": red2green(use) }
+            );
         }
 
         return iconSimpleMarker(
             { "name": use == 0 ? "block" : "directions_bike", "color": red2green(use) },
-            { "name": dispo == 0 ? "block" : "api", "color": red2green(dispo) });
+            { "name": dispo == 0 ? "block" : "api", "color": red2green(dispo) }
+        );
     }
 
     if (!reverse) {
         return iconDetailsMarker(
             { "name": dispo == 0 ? "block" : "api", "color": red2green(dispo) },
-            { "name": use == 0 ? "block" : "directions_bike", "color": red2green(use) });
+            { "name": use == 0 ? "block" : "directions_bike", "color": red2green(use) }
+        );
     }
 
     return iconDetailsMarker(
         { "name": use == 0 ? "block" : "directions_bike", "color": red2green(use) },
-        { "name": dispo == 0 ? "block" : "api", "color": red2green(dispo) });
+        { "name": dispo == 0 ? "block" : "api", "color": red2green(dispo) }
+    );
 }
 
 
@@ -77,7 +81,7 @@ function MarkerStation(props) {
 
     return (
         <Marker
-            contextmenu={true}
+        contextmenu={true}
             contextmenuItems={[
                 { icon: 'https://cdn-icons-png.flaticon.com/512/3648/3648601.png',
                     text: 'Définir comme station principale', 

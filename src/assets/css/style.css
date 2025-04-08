@@ -3,14 +3,15 @@ body {
 }
 
 .map {
-    position: absolute; 
-    top: 0; 
-    right: 0; 
-    bottom: 0; 
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
     left: 0;
 }
-  
-.track, .city {
+
+.track,
+.city {
     text-align: center;
 }
 
@@ -32,61 +33,84 @@ body {
 /* simple */
 .marker-simple-pin {
     border-radius: 50%;
+    position: absolute;
+    box-shadow: 2px 2px 2px grey;
     width: 10px;
     height: 10px;
-    position: absolute;
-    left: 10px;
-    top: 35px;
-    box-shadow: 2px 2px 2px grey;
-  }
+}
+
+.marker-simple-pin:hover {
+    width: 15px;
+    height: 15px;
+}
 
 /* details */
 .marker-pin {
-    width: 30px;
-    height: 30px;
     border-radius: 50% 50% 50% 0;
     position: absolute;
     transform: rotate(-45deg);
     left: 50%;
-    top: 50%;
-    margin: -15px 0 0 -15px;
     border-style: solid;
     border-width: 2px;
     box-shadow: 2px 2px 2px grey;
-  }
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+}
 
-  .circle-marker {
+.circle-marker {
     border-radius: 50%;
+    position: absolute;
+    border-style: solid;
     width: 8px;
     height: 8px;
-    position: absolute;
     transform: translate(4px, 4px);
-    border-style: solid;
     border-width: 1px;
-  }
-  
-  .marker-pin::after {
+}
+
+.marker-pin::after {
     content: '';
+    position: absolute;
+    border-radius: 50%;
     width: 24px;
     height: 24px;
     margin: 3px 0 0 3px;
-    
+}
+
+.custom-div-icon i {
     position: absolute;
-    border-radius: 50%;
-  }
-  
-  .custom-div-icon i {
-    position: absolute;
-    width: 22px;
-    font-size: 22px;
     left: 0;
     right: 0;
-    margin: 10px auto;
     text-align: center;
-  }
-  
-  .custom-div-icon i.awesome {
-    margin: 12px auto;
-    font-size: 17px;
-  }
-  
+    width: 22px;
+    font-size: 22px;
+    margin: 10px auto;
+}
+
+/* personnalize */
+.custom-div-icon:hover > .marker-pin {
+    top: 35%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+}
+
+.custom-div-icon:hover > .circle-marker {
+    width: 11px;
+    height: 11px;
+    transform: translate(-2px, -4px);
+    border-width: 2px;
+}
+
+.custom-div-icon:hover > .marker-pin::after {
+    width: 32px;
+    height: 32px;
+    margin: 4px 0 0 4px;
+}
+
+.custom-div-icon:hover > i {
+    width: 29px;
+    top: -10px;
+    font-size: 29px;
+}

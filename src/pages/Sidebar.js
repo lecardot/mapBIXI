@@ -15,14 +15,15 @@ function SideBar() {
             }}>
             <Menu>
                 <MainStationPanel/>
-                <AllStationVisual/>
                 <PartialStationVisual/>
+                <AllStationVisual/>
                 <SubMenu label="Carte">
                     <MenuItem> Voies cyclables </MenuItem>
-                    <MenuItem> Vélos disponibles </MenuItem>
+                    <MenuItem> Mettre en avant les vélos disponibles </MenuItem>
                 </SubMenu>
                 <SubMenu label="Paramètres">
-                    <MenuItem> Station principale </MenuItem>
+                    <MenuItem> Définir une nouvelle station comme principale </MenuItem>
+                    <MenuItem> Supprimer les cookies </MenuItem>
                 </SubMenu>
             </Menu>
         </Sidebar>
