@@ -5,7 +5,7 @@ export default function reducer(state, action) {
 
     switch (action.type) {
         case ACTIONS.CLEAR:
-            return { ...state, main_station: null, map: {zoom: CONFIG.ZOOM, cycles: true}}
+            return { ...state, main_station: CONFIG.STATION, map: {zoom: CONFIG.ZOOM, cycles: true}}
         case ACTIONS.DEFINE_AS_MAIN:
             return { ...state, main_station: action.station}
         case ACTIONS.UPDATE_ZOOM:

@@ -36,7 +36,7 @@ function Map() {
           return null
         }
 
-    let center = CONFIG.INIT_POS;
+    let center = CONFIG.STATION.pos;
     if (state.main_station) {
         center = state.main_station.pos;
     } else if (state.map.cur_pos) {

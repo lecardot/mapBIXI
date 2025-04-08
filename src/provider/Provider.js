@@ -13,7 +13,7 @@ function Provider({ children }) {
     const [state, dispatch] = useReducer(
         reducer, 
         { 
-            main_station: main_station,
+            main_station: main_station? main_station : CONFIG.STATION,
             map: {zoom: CONFIG.ZOOM, cycles: true}
         });
 
@@ -25,6 +25,7 @@ function Provider({ children }) {
 
         defineAsMain: function (station) {
             CookieManager.setCookie("main_station", station, 365);
+            console.log(station)
             dispatch({ type: ACTIONS.DEFINE_AS_MAIN, station})
         },
 
