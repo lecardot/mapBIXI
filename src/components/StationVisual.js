@@ -29,25 +29,34 @@ function mapStation(station) {
     return 100 * station.bicycles_avail / (station.bicycles_avail + station.docks_avail)
 }
 
-function StationVisual({ station }) {
+function StationVisual({ station, dist }) {
 
-    let randId = Math.floor(Math.random() * 1000001);
     let dataContext = useContext(DataContext);
 
     let dataFilter = []
+    let bicycles_avail = 0;
+    let docks_avail = 0;
+
     if (dataContext.state.data) {
         dataFilter = dataContext.state.data
-            .filter(info => (distance(info.pos, station ? station.pos : null) < 1000))
-            .map(station => mapStation(station))
+            .filter(info => (distance(info.pos, station ? station.pos : null) < dist))
+            .map(station => {
+                bicycles_avail += station.bicycles_avail;
+                docks_avail += station.docks_avail;
+                return mapStation(station)
+    })
     }
 
     return (
-        <svg id={randId} style={{ marginLeft: 10 }}>
+        <>
+            <div style={{ textAlign: "center" }}>
+                {`${bicycles_avail} vélos / ${docks_avail} stations`}
+            </div>
             <ViolinShape
                 data={dataFilter}
                 binNumber={Math.ceil(dataFilter.length / 20)}
             />
-        </svg>
+        </>
     )
 }
 
@@ -56,17 +65,20 @@ function AllStationVisual() {
     return (
         <>
             <div>Dans tout le réseau : </div>
-            <StationVisual />
+            <StationVisual dist={Infinity} />
         </>
     );
 }
 
 function PartialStationVisual() {
     const { state } = useContext(AppContext);
+
+    const dist = 1000;
+
     return (
         <>
-            <div>A 500 m : </div>
-            <StationVisual station={state.main_station} />
+            <div>{`À ${dist} m :`}</div>
+            <StationVisual station={state.main_station} dist={dist} />
         </>
     );
 }

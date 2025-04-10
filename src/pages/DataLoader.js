@@ -7,7 +7,7 @@ function DataLoader () {
     const dataContext  = useContext(DataContext);
 
     useEffect(() => {
-        dataContext.api.loadData()
+        dataContext.api.loadData();
     }, [])
 
     return (<></>)

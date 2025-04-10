@@ -15,8 +15,10 @@ function SideBar() {
             }}>
             <Menu>
                 <MainStationPanel />
-                <PartialStationVisual/>
-                <AllStationVisual/>
+                <SubMenu label="Détails">
+                    <PartialStationVisual/>
+                    <AllStationVisual/>
+                </SubMenu>
                 <SubMenu label="Carte">
                     <MenuItem> Voies cyclables </MenuItem>
                     <MenuItem> Mettre en avant les vélos disponibles </MenuItem>

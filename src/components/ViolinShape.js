@@ -6,31 +6,35 @@ function ViolinShape({ data, binNumber }) {
     let width = 200;
     let height = 50;
 
-    const yScale = d3
+    let randId = Math.floor(Math.random() * 1000001);
+
+    const margin = 7
+
+    const xScale = d3
         .scaleLinear()
         .domain([0, 100])
-        .range([0, width]);
+        .range([margin, width - margin]);
 
     const binBuilder = d3
         .bin()
         .domain([0, 100])
-        .thresholds(yScale.ticks(binNumber))
+        .thresholds(xScale.ticks(binNumber))
         .value((d) => d);
 
     const bins = binBuilder(data);
 
     const biggestBin = Math.max(...bins.map((b) => b.length));
 
-    const wScale = d3
+    const yScale = d3
         .scaleLinear()
         .domain([-biggestBin, biggestBin])
         .range([0, height]);
 
     const areaBuilder = d3
         .area()
-        .y0((d) => wScale(-d.length))
-        .y1((d) => wScale(d.length))
-        .x((d) => yScale(d.x0 || 0))
+        .y0((d) => yScale(-d.length))
+        .y1((d) => yScale(d.length))
+        .x((d) => xScale(d.x0 || 0))
         .curve(d3.curveBumpY)
 
     const areaPath = areaBuilder(bins);
@@ -42,18 +46,30 @@ function ViolinShape({ data, binNumber }) {
     useEffect(() => {
         const svgElement = d3.select(axesRef.current);
         svgElement.selectAll("*").remove();
-        const xAxisGenerator = d3.axisBottom(yScale);
+        const xAxisGenerator = d3.axisBottom(xScale)
+            .ticks(2)
+            .tickFormat(d => d % 50 ? null : `${d}%`)
+
         svgElement
             .append("g")
-            .attr("transform", "translate(0," + boundsHeight + ")")
+            .attr("transform", `translate(0, ${boundsHeight / 2})`)
             .call(xAxisGenerator);
 
-        const yAxisGenerator = d3.axisLeft(wScale);
-        svgElement.append("g").call(yAxisGenerator);
-    }, [wScale, yScale, boundsHeight]);
+        /*
+        const yAxisGenerator = d3.axisLeft(yScale)
+            .ticks(2)
+            .tickFormat(d => null)
+
+        svgElement
+            .append("g")
+            .attr("transform", `translate(${margin}, 0)`)
+            .call(yAxisGenerator);
+        */
+
+    }, [yScale, xScale, boundsHeight]);
 
     return (
-        <>
+        <svg id={randId} style={{ marginLeft: 10, width: boundsWidth + 10, height: boundsHeight }}>
             <path
                 d={areaPath || undefined}
                 opacity={1}
@@ -66,9 +82,8 @@ function ViolinShape({ data, binNumber }) {
                 width={boundsWidth}
                 height={boundsHeight}
                 ref={axesRef}
-                transform={`translate(20, 0)`}
             />
-        </>
+        </svg>
     );
 };
 
