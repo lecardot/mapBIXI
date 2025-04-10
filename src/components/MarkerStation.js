@@ -4,7 +4,7 @@ import { Marker, Tooltip } from 'react-leaflet'
 import "leaflet-contextmenu";
 import "leaflet-contextmenu/dist/leaflet.contextmenu.css";
 
-import AppContext from '../context/AppContext'
+import { AppContext } from '../context/Context'
 
 var iconDetailsMarker = (aMarker, bMarker) => {
     return L.divIcon({

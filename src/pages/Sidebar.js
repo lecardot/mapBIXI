@@ -14,7 +14,7 @@ function SideBar() {
                 backgroundColor: "rgba(37, 182, 255, 0.5)"
             }}>
             <Menu>
-                <MainStationPanel/>
+                <MainStationPanel />
                 <PartialStationVisual/>
                 <AllStationVisual/>
                 <SubMenu label="Carte">

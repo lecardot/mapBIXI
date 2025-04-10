@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import AppContext from '../context/AppContext'
+import { AppContext } from '../context/Context'
 import { MapContainer, TileLayer, ScaleControl, ZoomControl, useMapEvents } from 'react-leaflet'
 
 import LayerMarkers from '../components/LayerMarkers';
