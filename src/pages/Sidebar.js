@@ -2,7 +2,13 @@ import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import MainStationPanel from '../components/MainStationPanel';
 import { PartialStationVisual, AllStationVisual } from '../components/StationVisual';
 
+import { Button } from 'react-bootstrap';
+import { useContext } from 'react';
+import { AppContext } from '../context/Context';
+
 function SideBar() {
+
+    const { api } = useContext(AppContext)
 
     return (
         <Sidebar
@@ -25,7 +31,12 @@ function SideBar() {
                 </SubMenu>
                 <SubMenu label="Paramètres">
                     <MenuItem> Définir une nouvelle station comme principale </MenuItem>
-                    <MenuItem> Supprimer les cookies </MenuItem>
+                    <MenuItem>      
+                        <Button 
+                            variant="outline-primary"
+                            onClick={api.clearCookies}
+                            >Supprimer les cookies</Button>
+                    </MenuItem>
                 </SubMenu>
             </Menu>
         </Sidebar>

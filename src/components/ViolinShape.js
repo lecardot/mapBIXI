@@ -3,7 +3,6 @@ import React, { useRef, useEffect } from "react";
 
 function ViolinShape({ main_data, data, binNumber }) {
 
-    console.log(main_data)
     const width = 200;
     const height = 50;
     const margin = 7
@@ -96,10 +95,10 @@ function ViolinShape({ main_data, data, binNumber }) {
                 fillOpacity={0.9}
                 strokeWidth={1}
             />
-            {linePath ?
+            {main_data ?
                 <path
                     d={linePath}
-                    stroke="#9a6fb0"
+                    stroke="black"
                     fill="none"
                     strokeWidth={2}
                 /> :

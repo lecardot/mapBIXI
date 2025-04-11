@@ -11,6 +11,8 @@ export function reducerApp(state, action) {
             return { ...state, main_station_id: action.payload.id}
         case ACTIONS.DEFINE_AS_CURRENT:
             return { ...state, current_station_id: action.payload.id}
+        case ACTIONS.DEFINE_AS_CURRENT:
+            return { ...state, current_station_id: action.payload.id}
         case ACTIONS.UPDATE_ZOOM:
             return { ...state, map: {zoom: action.payload.zoom, cycles: state.map.cycles} }
         case ACTIONS.REVERSE_CYCLES_DOCKS:

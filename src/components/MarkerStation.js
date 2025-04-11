@@ -12,7 +12,7 @@ var iconDetailsMarker = (aMarker, bMarker) => {
         html: `<div style='background-color:${aMarker.color}' class='marker-pin'></div>
         <div style='background-color:${bMarker.color}' class='circle-marker '></div>
         <i class='material-icons-outlined'>${aMarker.name}</i>`,
-        iconSize:   [30, 42],
+        iconSize: [30, 42],
         iconAnchor: [15, 42]
     });
 }
@@ -31,8 +31,7 @@ var red2green = (perc) => {
     if (perc < 50) {
         r = 255;
         g = Math.round(5.1 * perc);
-    }
-    else {
+    } else {
         g = 255;
         r = Math.round(510 - 5.10 * perc);
     }
@@ -81,20 +80,31 @@ function MarkerStation(props) {
 
     return (
         <Marker
-        contextmenu={true}
+            eventHandlers={{
+                mouseover: () => {
+                    api.defineAsCurrent(station)
+                },
+                mouseout: () => {
+                    api.defineAsCurrent()
+                },
+            }}
             contextmenuItems={[
-                { icon: 'https://cdn-icons-png.flaticon.com/512/3648/3648601.png',
-                    text: 'Définir comme station principale', 
-                    callback: () => { api.defineAsMain(station) }},
+                {
+                    icon: 'https://cdn-icons-png.flaticon.com/512/3648/3648601.png',
+                    text: 'Définir comme station principale',
+                    callback: () => { api.defineAsMain(station) }
+                },
                 { separator: true },
-                { icon: 'https://cdn-icons-png.flaticon.com/512/5397/5397463.png', 
-                    text: `Définir les ${state.map.cycles ? "vélos" : "stations"} comme principa${state.map.cycles ? "ux" : "les"}`, 
-                    callback: () => api.changeCyclesDocks()}
+                {
+                    icon: 'https://cdn-icons-png.flaticon.com/512/5397/5397463.png',
+                    text: `Définir les ${state.map.cycles ? "vélos" : "stations"} comme principa${state.map.cycles ? "ux" : "les"}`,
+                    callback: () => api.changeCyclesDocks()
+                }
             ]}
             position={station.pos}
             icon={icon}
         >
-            <Tooltip>{station.name} {zoomLevel < 14 ? "" : `- ${station.bicycles_avail} Vélos - ${station.docks_avail} Stations`}</Tooltip>
+            {/* <Tooltip>{station.name} {zoomLevel < 14 ? "" : `- ${station.bicycles_avail} Vélos - ${station.docks_avail} Stations`}</Tooltip> */}
         </Marker>
     );
 }

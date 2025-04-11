@@ -1,5 +1,11 @@
 class CookieManager {
 
+    static clear() {
+        var allCookies = document.cookie.split(';');
+        for (let i = 0; i < allCookies.length; i++)
+            document.cookie = allCookies[i] + "=;expires=" + new Date(0).toUTCString();
+    }
+
     static setCookie(name, value, days) {
         var expires = "";
         if (days) {
@@ -8,7 +14,7 @@ class CookieManager {
             expires = "; expires=" + date.toUTCString();
         }
         document.cookie = name + "=" + (JSON.stringify(value) || "") + expires + "; path=/";
-    }   
+    }
 
     static getCookie(name) {
         var nameEQ = name + "=";
