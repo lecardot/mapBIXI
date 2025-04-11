@@ -1,14 +1,14 @@
 import * as d3 from "d3";
 import React, { useRef, useEffect } from "react";
 
-function ViolinShape({ data, binNumber }) {
+function ViolinShape({ main_data, data, binNumber }) {
 
-    let width = 200;
-    let height = 50;
+    console.log(main_data)
+    const width = 200;
+    const height = 50;
+    const margin = 7
 
     let randId = Math.floor(Math.random() * 1000001);
-
-    const margin = 7
 
     const xScale = d3
         .scaleLinear()
@@ -43,9 +43,19 @@ function ViolinShape({ data, binNumber }) {
     const boundsWidth = width;
     const boundsHeight = height;
 
+    const lineBuilder = d3.line()
+        .x((d) => xScale(d.x))
+        .y((d) => yScale(d.y));
+
+    const linePath = lineBuilder([
+        { x: main_data, y: - height },
+        { x: main_data, y: height }
+    ]);
+
     useEffect(() => {
         const svgElement = d3.select(axesRef.current);
         svgElement.selectAll("*").remove();
+
         const xAxisGenerator = d3.axisBottom(xScale)
             .ticks(2)
             .tickFormat(d => d % 50 ? null : `${d}%`)
@@ -55,16 +65,25 @@ function ViolinShape({ data, binNumber }) {
             .attr("transform", `translate(0, ${boundsHeight / 2})`)
             .call(xAxisGenerator);
 
-        /*
-        const yAxisGenerator = d3.axisLeft(yScale)
-            .ticks(2)
-            .tickFormat(d => null)
+        var lg = svgElement.append("defs")
+            .append("linearGradient")
+            .attr("id", "red2green")
+            .attr("x1", "0%")
+            .attr("x2", "100%")
+            .attr("y1", "0%")
+            .attr("y2", "0%")
 
-        svgElement
-            .append("g")
-            .attr("transform", `translate(${margin}, 0)`)
-            .call(yAxisGenerator);
-        */
+        lg.append("stop")
+            .attr("offset", "0%")
+            .style("stop-color", "red")
+
+        lg.append("stop")
+            .attr("offset", "50%")
+            .style("stop-color", "orange")
+
+        lg.append("stop")
+            .attr("offset", "100%")
+            .style("stop-color", "green")
 
     }, [yScale, xScale, boundsHeight]);
 
@@ -72,12 +91,20 @@ function ViolinShape({ data, binNumber }) {
         <svg id={randId} style={{ marginLeft: 10, width: boundsWidth + 10, height: boundsHeight }}>
             <path
                 d={areaPath || undefined}
-                opacity={1}
-                stroke="#9a6fb0"
-                fill="#9a6fb0"
-                fillOpacity={0.1}
-                strokeWidth={2}
+                stroke="black"
+                fill="url(#red2green)"
+                fillOpacity={0.9}
+                strokeWidth={1}
             />
+            {linePath ?
+                <path
+                    d={linePath}
+                    stroke="#9a6fb0"
+                    fill="none"
+                    strokeWidth={2}
+                /> :
+                <></>
+            }
             <g
                 width={boundsWidth}
                 height={boundsHeight}

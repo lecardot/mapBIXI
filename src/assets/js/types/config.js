@@ -1,5 +1,6 @@
 export const CONFIG = {
     ZOOM: 14,
+    STATION_ID: 1,
     STATION: {
         "id":"1",
         "name":"Métro Champ-de-Mars (Hôtel-de-Ville / Viger)",

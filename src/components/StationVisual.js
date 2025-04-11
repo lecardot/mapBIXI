@@ -29,23 +29,29 @@ function mapStation(station) {
     return 100 * station.bicycles_avail / (station.bicycles_avail + station.docks_avail)
 }
 
-function StationVisual({ station, dist }) {
+function StationVisual({ station_id, dist }) {
 
     let dataContext = useContext(DataContext);
+    let station = dataContext.api.getStation(station_id)
 
     let dataFilter = []
     let bicycles_avail = 0;
     let docks_avail = 0;
 
+    let main_data = 0;
+
     if (dataContext.state.data) {
         dataFilter = dataContext.state.data
-            .filter(info => (distance(info.pos, station ? station.pos : null) < dist))
-            .map(station => {
-                bicycles_avail += station.bicycles_avail;
-                docks_avail += station.docks_avail;
-                return mapStation(station)
-    })
+            .filter(s => (distance(s.pos, station.pos) < dist))
+            .map(s => {
+                bicycles_avail += s.bicycles_avail;
+                docks_avail += s.docks_avail;
+                return mapStation(s);
+            })
+        
+        main_data = mapStation(station);
     }
+
 
     return (
         <>
@@ -53,6 +59,7 @@ function StationVisual({ station, dist }) {
                 {`${bicycles_avail} vélos / ${docks_avail} stations`}
             </div>
             <ViolinShape
+                main_data={main_data}
                 data={dataFilter}
                 binNumber={Math.ceil(dataFilter.length / 20)}
             />
@@ -62,23 +69,25 @@ function StationVisual({ station, dist }) {
 
 
 function AllStationVisual() {
+    const { state } = useContext(AppContext);
+
     return (
         <>
             <div>Dans tout le réseau : </div>
-            <StationVisual dist={Infinity} />
+            <StationVisual station_id={state.main_station_id} dist={Infinity} />
         </>
     );
 }
 
+
 function PartialStationVisual() {
     const { state } = useContext(AppContext);
-
-    const dist = 1000;
+    const dist = 500;
 
     return (
         <>
             <div>{`À ${dist} m :`}</div>
-            <StationVisual station={state.main_station} dist={dist} />
+            <StationVisual station_id={state.main_station_id} dist={dist} />
         </>
     );
 }

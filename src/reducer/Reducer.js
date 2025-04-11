@@ -6,11 +6,13 @@ export function reducerApp(state, action) {
     switch (action.type) {
         // AppContext
         case ACTIONS.CLEAR:
-            return { ...state, main_station: CONFIG.STATION, map: {zoom: CONFIG.ZOOM, cycles: true}}
+            return { ...state, main_station_id: CONFIG.STATION_ID, map: {zoom: CONFIG.ZOOM, cycles: true}}
         case ACTIONS.DEFINE_AS_MAIN:
-            return { ...state, main_station: action.station}
+            return { ...state, main_station_id: action.payload.id}
+        case ACTIONS.DEFINE_AS_CURRENT:
+            return { ...state, current_station_id: action.payload.id}
         case ACTIONS.UPDATE_ZOOM:
-            return { ...state, map: {zoom: action.zoom, cycles: state.map.cycles} }
+            return { ...state, map: {zoom: action.payload.zoom, cycles: state.map.cycles} }
         case ACTIONS.REVERSE_CYCLES_DOCKS:
             return { ...state,  map: {zoom: state.map.zoom, cycles: !state.map.cycles} }
         default:

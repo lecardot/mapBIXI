@@ -11,10 +11,12 @@ export function ProviderApp({ children }) {
     // initialisation du contexte
     let main_station = CookieManager.getCookie("main_station");
 
+    let main_station_id = (main_station && "id" in main_station) ? main_station.id : CONFIG.STATION;
+
     const [state, dispatch] = useReducer(
         reducerApp,
         {
-            main_station: main_station ? main_station : CONFIG.STATION,
+            main_station_id: main_station_id,
             map: { zoom: CONFIG.ZOOM, cycles: true }
         });
 
@@ -25,12 +27,12 @@ export function ProviderApp({ children }) {
         },
 
         defineAsMain: function (station) {
-            CookieManager.setCookie("main_station", station, 365);
-            dispatch({ type: ACTIONS.DEFINE_AS_MAIN, station });
+            CookieManager.setCookie("main_station", { id: station.id }, 365);
+            dispatch({ type: ACTIONS.DEFINE_AS_MAIN, payload: { id: station.id } });
         },
 
         updateZoom: function (zoom) {
-            dispatch({ type: ACTIONS.UPDATE_ZOOM, zoom });
+            dispatch({ type: ACTIONS.UPDATE_ZOOM, payload: { zoom: zoom } });
         },
 
         changeCyclesDocks: function () {
@@ -81,6 +83,19 @@ export function ProviderData({ children }) {
         loadData: async function () {
             loadDataStations.then((data) => dispatch({ type: ACTIONS.LOAD_DATA, data }))
         },
+
+        getStation: function (station_id) {
+            // recherche par dichotomie ???? 
+            if (state.data) {
+                for (let station of state.data) {
+                    if (station_id == station.id) {
+                        return station
+                    }
+                }
+            } else {
+                return null
+            }
+        }
     }
 
     return (

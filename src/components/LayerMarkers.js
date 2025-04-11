@@ -12,13 +12,14 @@ function mapStation(station) {
         bicycles_dispo: 100 * station.bicycles_avail / (station.bicycles_avail + station.docks_avail),
         docks_dispo: 100 * station.docks_avail / (station.bicycles_avail + station.docks_avail),
         name: station.name,
+        id: station.id,
     };
 }
 
 function LayerMarkers() {
 
-    let dataContext = useContext(DataContext)
-    let data = dataContext.state.data ? dataContext.state.data.map(station => mapStation(station)) : [];
+    let { state } = useContext(DataContext)
+    let data = state.data ? state.data.map(station => mapStation(station)) : [];
 
     return (
         <LayerGroup>

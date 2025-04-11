@@ -6,7 +6,7 @@ function MainStationPanel() {
     const { state } = useContext(AppContext);
 
     return (
-        <Station station={state.main_station}/>
+        <Station station_id={state.main_station_id}/>
     );
 }
 
