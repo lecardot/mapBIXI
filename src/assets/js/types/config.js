@@ -1,5 +1,5 @@
 export const CONFIG = {
-    ZOOM: 14,
+    ZOOM: 16,
     STATION_ID: 1,
     STATION: {
         "id":"1",

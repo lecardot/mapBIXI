@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 body {
     margin: 0;
 }
@@ -113,4 +116,17 @@ body {
     width: 29px;
     top: -10px;
     font-size: 29px;
+}
+
+.tooltip_name {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 2vh;
+    margin-bottom: 1vh;
+}
+
+.tooltip_info {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 2vh;
 }

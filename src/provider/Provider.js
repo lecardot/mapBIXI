@@ -18,7 +18,11 @@ export function ProviderApp({ children }) {
         {
             main_station_id: main_station_id,
             current_station_id: null,
-            map: { zoom: CONFIG.ZOOM, cycles: true }
+            map: { zoom: CONFIG.ZOOM },
+            mode: { 
+                mainStation: false,
+                cycles: true,
+            }
         });
 
     const api = {
@@ -46,6 +50,10 @@ export function ProviderApp({ children }) {
 
         changeCyclesDocks: function () {
             dispatch({ type: ACTIONS.REVERSE_CYCLES_DOCKS });
+        },
+
+        changeMainStationMode: function (value) {
+            dispatch({ type: ACTIONS.REVERSE_MAIN_MODE, payload: { value: value }});
         },
     }
 

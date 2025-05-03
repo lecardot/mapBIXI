@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
-import { Marker, Tooltip } from 'react-leaflet'
+import { Marker } from 'react-leaflet'
+import TooltipStation from './TooltipStation';
 
 import "leaflet-contextmenu";
 import "leaflet-contextmenu/dist/leaflet.contextmenu.css";
@@ -39,9 +40,9 @@ var red2green = (perc) => {
     return '#' + ('000000' + h.toString(16)).slice(-6);
 }
 
-var bicyleIcon = (use, dispo, zoomLevel, reverse = false) => {
+var bicyleIcon = (use, dispo, zoomLevel, editMain, current, reverse = false) => {
 
-    if (zoomLevel < 14) {
+    if (zoomLevel < 14 || (editMain && !current)) {
 
         if (!reverse) {
             return iconSimpleMarker(
@@ -76,17 +77,27 @@ function MarkerStation(props) {
     var station = props.station;
     var zoomLevel = state.map.zoom;
 
-    var icon = bicyleIcon(station.bicycles_dispo, station.docks_dispo, zoomLevel, state.map.cycles)
+    var icon = bicyleIcon(
+        station.bicycles_dispo,
+        station.docks_dispo,
+        zoomLevel,
+        state.mode.mainStation,
+        state.current_station_id == station.id,
+        state.mode.cycles
+    )
 
     return (
         <Marker
             eventHandlers={{
-                mouseover: () => {
-                    api.defineAsCurrent(station)
+                click: () => {
+                    console.log("Click on marker", state.mode)
+                    if (state.mode.mainStation) {
+                        api.defineAsMain(station);
+                        api.changeMainStationMode(false);
+                    }
                 },
-                mouseout: () => {
-                    api.defineAsCurrent()
-                },
+                mouseover: () => api.defineAsCurrent(station),
+                mouseout: () => api.defineAsCurrent(),
             }}
             contextmenuItems={[
                 {
@@ -94,17 +105,27 @@ function MarkerStation(props) {
                     text: 'Définir comme station principale',
                     callback: () => { api.defineAsMain(station) }
                 },
+                /*
                 { separator: true },
                 {
                     icon: 'https://cdn-icons-png.flaticon.com/512/5397/5397463.png',
                     text: `Définir les ${state.map.cycles ? "vélos" : "stations"} comme principa${state.map.cycles ? "ux" : "les"}`,
                     callback: () => api.changeCyclesDocks()
                 }
+                */
             ]}
             position={station.pos}
             icon={icon}
         >
-            {/* <Tooltip>{station.name} {zoomLevel < 14 ? "" : `- ${station.bicycles_avail} Vélos - ${station.docks_avail} Stations`}</Tooltip> */}
+            {
+                station.id == state.current_station_id ?
+                    <TooltipStation
+                        station={station}
+                        zoomLevel={zoomLevel}
+                    />
+                    :
+                    <></>
+            }
         </Marker>
     );
 }

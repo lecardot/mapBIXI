@@ -1,6 +1,7 @@
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import MainStationPanel from '../components/MainStationPanel';
 import { PartialStationVisual, AllStationVisual } from '../components/StationVisual';
+import { SwitchBicycle2Dock } from '../components/SwitchPanel';
 
 import { Button } from 'react-bootstrap';
 import { useContext } from 'react';
@@ -27,10 +28,15 @@ function SideBar() {
                 </SubMenu>
                 <SubMenu label="Carte">
                     <MenuItem> Voies cyclables </MenuItem>
-                    <MenuItem> Mettre en avant les vélos disponibles </MenuItem>
+                    <MenuItem><SwitchBicycle2Dock/></MenuItem>
                 </SubMenu>
                 <SubMenu label="Paramètres">
-                    <MenuItem> Définir une nouvelle station comme principale </MenuItem>
+                    <MenuItem>      
+                        <Button 
+                            variant="outline-primary"
+                            onClick={() => api.changeMainStationMode()}
+                            >Définir une nouvelle station</Button>
+                    </MenuItem>
                     <MenuItem>      
                         <Button 
                             variant="outline-primary"
