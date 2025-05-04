@@ -16,15 +16,13 @@ function SwitchPanel({ label, onChange }) {
 }
 
 function SwitchBicycle2Dock() {
-
     const { api } = useContext(AppContext);
-    
-    return (
-        <SwitchPanel 
-            label={""}
-            onChange={api.changeCyclesDocks}
-        />
-        );
+    return ( <SwitchPanel label={""} onChange={api.changeCyclesDocks} /> );
 }
 
-export { SwitchBicycle2Dock };
+function SwitchDiscret2Continu() {
+    const { api } = useContext(AppContext);
+    return ( <SwitchPanel label={""} onChange={api.changeDiscretContinu} /> );
+}
+
+export { SwitchBicycle2Dock, SwitchDiscret2Continu };

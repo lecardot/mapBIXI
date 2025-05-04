@@ -3,6 +3,7 @@ export const ACTIONS = {
     CLEAR: "clear",
     UPDATE_ZOOM: "update_zoom",
     REVERSE_CYCLES_DOCKS: "reverse_cycles_docks",
+    REVERSE_DISCRET_CONTINU: "reverse_discret_continu",
     REVERSE_MAIN_MODE: "reverse_main_mode",
     LOAD_DATA: "load_data",
 };

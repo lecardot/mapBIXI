@@ -1,12 +1,16 @@
 class TextTools {
 
-    static extractNameStation(name) {
-        // remove ()
-        var commaIndex=name.indexOf('(')
-        if (commaIndex == -1) {
-            return name;
+    static extractNameStation(name, size) {
+
+        if (name.length > size) {
+            if (name.includes("(")) {
+                name = name.slice(0, name.lastIndexOf('('))
+                name = TextTools.extractNameStation(name, size)
+            } else {
+                name = name.substring(0, size-3) + '...';
+            }
         }
-        return name.substring(0,commaIndex);
+        return name[0].toUpperCase() + name.slice(1);
     }
 }
 

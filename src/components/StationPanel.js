@@ -11,10 +11,10 @@ function Station({ station_id }) {
     return (
         <div style={{ textAlign: "center" }}>
             {station ?
-                <>
-                    <div>{TextTools.extractNameStation(station.name)}</div>
+                <div className="mainStation_name">
+                    <div>{TextTools.extractNameStation(station.name, 30)}</div>
                     <div>{`${station.bicycles_avail} vélos / ${station.docks_avail} stations`}</div>
-                </>
+                </div>
                 :
                 <></>
             }

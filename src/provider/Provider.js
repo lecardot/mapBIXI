@@ -22,6 +22,7 @@ export function ProviderApp({ children }) {
             mode: { 
                 mainStation: false,
                 cycles: true,
+                continu: true,
             }
         });
 
@@ -50,6 +51,10 @@ export function ProviderApp({ children }) {
 
         changeCyclesDocks: function () {
             dispatch({ type: ACTIONS.REVERSE_CYCLES_DOCKS });
+        },
+
+        changeDiscretContinu: function () {
+            dispatch({ type: ACTIONS.REVERSE_DISCRET_CONTINU });
         },
 
         changeMainStationMode: function (value) {

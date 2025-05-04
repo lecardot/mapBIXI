@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import { LayerGroup } from 'react-leaflet'
+import { AppContext, DataContext } from '../context/Context';
 
+import LayerHeatMap, { HeatMapStation } from '../components/HeatMapLayer';
 import MarkerStation from './MarkerStation';
-import { DataContext } from '../context/Context';
 
 function mapStation(station) {
     return {
@@ -18,14 +19,21 @@ function mapStation(station) {
 
 function LayerMarkers() {
 
-    let { state } = useContext(DataContext)
+    let appContext = useContext(AppContext);
+    let { state } = useContext(DataContext);
     let data = state.data ? state.data.map(station => mapStation(station)) : [];
 
-    return (
-        <LayerGroup>
-            {data.map((station, key) => { return(<MarkerStation key={key} station={station} />)})}
-        </LayerGroup>
+    let displayHeatMap = appContext.state.mode.continu && (appContext.state.map.zoom < 14);
 
+    return (
+        <>
+            <LayerHeatMap>
+                {data.map((station, key) => { return (<HeatMapStation key={key} station={station} hidden={displayHeatMap} />) })}
+            </LayerHeatMap>
+            <LayerGroup>
+                {data.map((station, key) => { return (<MarkerStation key={key} station={station} hidden={!displayHeatMap} />) })}
+            </LayerGroup>
+        </>
     );
 }
 

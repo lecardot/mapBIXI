@@ -71,10 +71,9 @@ var bicyleIcon = (use, dispo, zoomLevel, editMain, current, reverse = false) => 
 }
 
 
-function MarkerStation(props) {
+function MarkerStation({ station, hidden }) {
 
     const { state, api } = useContext(AppContext);
-    var station = props.station;
     var zoomLevel = state.map.zoom;
 
     var icon = bicyleIcon(
@@ -87,46 +86,49 @@ function MarkerStation(props) {
     )
 
     return (
-        <Marker
-            eventHandlers={{
-                click: () => {
-                    console.log("Click on marker", state.mode)
-                    if (state.mode.mainStation) {
-                        api.defineAsMain(station);
-                        api.changeMainStationMode(false);
+        hidden ?
+            <Marker
+                eventHandlers={{
+                    click: () => {
+                        console.log("Click on marker", state.mode)
+                        if (state.mode.mainStation) {
+                            api.defineAsMain(station);
+                            api.changeMainStationMode(false);
+                        }
+                    },
+                    mouseover: () => api.defineAsCurrent(station),
+                    mouseout: () => api.defineAsCurrent(),
+                }}
+                contextmenuItems={[
+                    {
+                        icon: 'https://cdn-icons-png.flaticon.com/512/3648/3648601.png',
+                        text: 'Définir comme station principale',
+                        callback: () => { api.defineAsMain(station) }
+                    },
+                    /*
+                    { separator: true },
+                    {
+                        icon: 'https://cdn-icons-png.flaticon.com/512/5397/5397463.png',
+                        text: `Définir les ${state.map.cycles ? "vélos" : "stations"} comme principa${state.map.cycles ? "ux" : "les"}`,
+                        callback: () => api.changeCyclesDocks()
                     }
-                },
-                mouseover: () => api.defineAsCurrent(station),
-                mouseout: () => api.defineAsCurrent(),
-            }}
-            contextmenuItems={[
+                    */
+                ]}
+                position={station.pos}
+                icon={icon}
+            >
                 {
-                    icon: 'https://cdn-icons-png.flaticon.com/512/3648/3648601.png',
-                    text: 'Définir comme station principale',
-                    callback: () => { api.defineAsMain(station) }
-                },
-                /*
-                { separator: true },
-                {
-                    icon: 'https://cdn-icons-png.flaticon.com/512/5397/5397463.png',
-                    text: `Définir les ${state.map.cycles ? "vélos" : "stations"} comme principa${state.map.cycles ? "ux" : "les"}`,
-                    callback: () => api.changeCyclesDocks()
+                    station.id == state.current_station_id ?
+                        <TooltipStation
+                            station={station}
+                            zoomLevel={zoomLevel}
+                        />
+                        :
+                        <></>
                 }
-                */
-            ]}
-            position={station.pos}
-            icon={icon}
-        >
-            {
-                station.id == state.current_station_id ?
-                    <TooltipStation
-                        station={station}
-                        zoomLevel={zoomLevel}
-                    />
-                    :
-                    <></>
-            }
-        </Marker>
+            </Marker>
+            :
+            <></>
     );
 }
 

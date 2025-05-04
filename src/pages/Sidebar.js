@@ -1,7 +1,7 @@
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import MainStationPanel from '../components/MainStationPanel';
 import { PartialStationVisual, AllStationVisual } from '../components/StationVisual';
-import { SwitchBicycle2Dock } from '../components/SwitchPanel';
+import { SwitchBicycle2Dock, SwitchDiscret2Continu } from '../components/SwitchPanel';
 
 import { Button } from 'react-bootstrap';
 import { useContext } from 'react';
@@ -29,6 +29,7 @@ function SideBar() {
                 <SubMenu label="Carte">
                     <MenuItem> Voies cyclables </MenuItem>
                     <MenuItem><SwitchBicycle2Dock/></MenuItem>
+                    <MenuItem><SwitchDiscret2Continu/></MenuItem>
                 </SubMenu>
                 <SubMenu label="Paramètres">
                     <MenuItem>      

@@ -1,22 +1,19 @@
 import React from 'react';
 import { Tooltip } from 'react-leaflet';
 
+import TextTools from '../assets/js/tools/textTools';
+
 function htmlTooltipName(station) {
-    if (station.name.length > 42) {
-        
-        if (station.name.includes("(")) {
-            station.name = station.name.slice(0, station.name.lastIndexOf('('))
-        } else {
-            station.name = station.name.substring(0, 42) + '...';
-        }
-    }
-    return `<div class="tooltip_name">${station.name[0].toUpperCase() + station.name.slice(1)}</div>`;
+    return `<div class="tooltip_name">${TextTools.extractNameStation(station.name, 42)}</div>`;
 }
 
 function htmlTooltipDispo(station) {
     return `
-    <div class="tooltip_info">${station.bicycles_avail} Vélos</div>
-    <div class="tooltip_info">${station.docks_avail} Stations</div>`;
+    <center>Disponibilité</center>
+    <center>
+    <i><i class="tooltip_info">${station.bicycles_avail}</i><i class='material-icons-outlined tooltip_icons'>directions_bike</i></i>
+    <i><i class="tooltip_info">${station.docks_avail}</i><i class='material-icons-outlined tooltip_icons'>api</i></i>
+    </center>`;
 }
 
 function TooltipStationLight({ station }) {

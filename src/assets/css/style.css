@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap');
 
 body {
     margin: 0;
@@ -18,18 +18,12 @@ body {
     text-align: center;
 }
 
-.title {
-    font-size: medium;
-    font-weight: bolder;
-}
-
-.info {
-    font-size: mediums;
-}
-
-
 /* Sidebar */
-
+.mainStation_name {
+    font-family: 'Roboto', sans-serif;
+    font-size: 2.5vh;
+    font-weight: 400;
+}
 
 /* Custom marker styles */
 
@@ -118,15 +112,22 @@ body {
     font-size: 29px;
 }
 
+/* Tooltip */
+
 .tooltip_name {
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 2vh;
-    margin-bottom: 1vh;
 }
 
 .tooltip_info {
+    margin-top: 1vh;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
-    font-size: 2vh;
+    font-size: 3vh;
+}
+
+.tooltip_icons {
+    font-size: 4vh;
+    margin: 0 0.5vh;
 }

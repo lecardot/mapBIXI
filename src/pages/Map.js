@@ -1,14 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { AppContext, DataContext } from '../context/Context'
-import { MapContainer, TileLayer, ScaleControl, ZoomControl, useMapEvents } from 'react-leaflet'
+import { MapContainer, TileLayer, ScaleControl, ZoomControl, useMapEvents, LayersControl } from 'react-leaflet'
 
+import sideBySide from 'leaflet-side-by-side';
 import LayerMarkers from '../components/LayerMarkers';
-import { CONFIG } from '../assets/js/types/config';
+import { marker } from 'leaflet';
 
 /*
 Recherche de la station la plus proche
 function MyComponent() {
-    const map = useMapEvents({
+    const map = useMapEvents({s
     mousemove: () => {
         map.locate()
       },
@@ -21,20 +22,27 @@ function MyComponent() {
   }
     */
 
-
 function Map() {
 
     const { state, api } = useContext(AppContext);
     const dataContext = useContext(DataContext);
+    const [map, setMap] = useState();
+
+    var osmLayer = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png');
+    var stamenLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png');
+
+    useEffect(() => {
+        if (map) {
+            osmLayer.addTo(map);
+            stamenLayer.addTo(map);
+            L.control.sideBySide(osmLayer, stamenLayer).addTo(map);
+        }
+    }, [map])
 
     function MapListener() {
-        const map = useMapEvents({
-            zoom: () => {
-                api.updateZoom(map.getZoom());
-                console.log('zoom:', map.getZoom())
-            }
+        useMapEvents({
+            zoom: () => api.updateZoom(map.getZoom())
         })
-        return null
     }
 
     let station_id = state.main_station_id;
@@ -47,15 +55,16 @@ function Map() {
     return (
         station ?
             <MapContainer
+                ref={setMap}
                 center={station.pos}
                 zoom={state.map.zoom}
                 style={{ height: "100vh", width: "100vw" }}
-                zoomControl={false}>
+                zoomControl={false}
+            >
                 <MapListener />
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <LayerMarkers />
                 <ScaleControl position="bottomright" />
                 <ZoomControl position="topright" />
-                <LayerMarkers />
             </MapContainer>
             :
             <></>
